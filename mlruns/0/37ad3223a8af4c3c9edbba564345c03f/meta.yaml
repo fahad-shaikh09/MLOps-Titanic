@@ -1,0 +1,14 @@
+artifact_uri: file:///Volumes/Macintosh%20HD/MLOps-practise/Titanic/mlruns/0/37ad3223a8af4c3c9edbba564345c03f/artifacts
+end_time: 1753287595779
+entry_point_name: ''
+experiment_id: '0'
+lifecycle_stage: active
+run_id: 37ad3223a8af4c3c9edbba564345c03f
+run_name: delicate-asp-82
+source_name: ''
+source_type: 4
+source_version: ''
+start_time: 1753287595754
+status: 3
+tags: []
+user_id: fahad
