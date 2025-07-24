@@ -5,6 +5,13 @@ from model_utils import train_model, predict
 from prometheus_client import Counter, generate_latest
 from fastapi.responses import Response
 
+
+# Add imports for whylogs
+import pandas as pd
+import whylogs as why
+from datetime import datetime
+import os
+
 # Training model at startup
 train_model()
 
@@ -31,7 +38,23 @@ def make_prediction(p: Passenger):
 
     features = [p.Pclass, p.Sex, p.Age, p.Fare]
     result = predict(features)
+    
+    # Prepare DataFrame for monitoring
+    df = pd.DataFrame([{
+        "Pclass": p.Pclass,
+        "Sex": p.Sex,
+        "Age": p.Age,
+        "Fare": p.Fare,
+        "Survived": int(result)
+    }])
 
+    # Log profile using whylogs
+    profile = why.log(pandas=df).profile()
+
+    # Save profile locally
+    timestamp = datetime.now().strftime("%Y%m%d_%H%M%S")
+    os.makedirs("whylogs_output", exist_ok=True)
+    profile.write(f"whylogs_output/profile_{timestamp}.bin")
     return {"survived": bool(result)}
 
 @app.get("/metrics")
